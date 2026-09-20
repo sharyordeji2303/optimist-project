@@ -320,7 +320,9 @@ The database still has to live somewhere. Vercel does not host databases, so
 
 The serverless entry point caches the database connection between invocations, so
 a warm instance reuses one connection pool instead of opening a new one per
-request.
+request. Each instance caps its pool at 10 connections (`server/src/config/db.js`)
+rather than the driver default of 100, because several warm instances would
+otherwise be able to exhaust an Atlas Free cluster's 500-connection limit.
 
 ### Step 3: Site project on Vercel
 

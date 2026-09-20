@@ -15,6 +15,11 @@ export async function connectDatabase(uri = env.MONGODB_URI) {
   await mongoose.connect(uri, {
     // Fail fast instead of hanging for 30s when the URI or network is wrong.
     serverSelectionTimeoutMS: 8000,
+    // The driver default is 100 per process. On Vercel several warm instances each
+    // hold their own pool, and an Atlas Free cluster allows 500 connections in
+    // total, so the default can exhaust the cluster under load. This app serves a
+    // handful of requests at a time; 10 is generous and leaves headroom.
+    maxPoolSize: 10,
   });
 
   return mongoose.connection;
