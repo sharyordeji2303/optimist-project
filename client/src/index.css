@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Design tokens.
+   Every colour on the site resolves through these variables, which is what lets
+   light and dark mode stay identical in structure and only swap values.
+   Values are space-separated RGB channels so Tailwind's opacity modifiers work.
+   --------------------------------------------------------------------------- */
+:root {
+  --paper: 245 245 243; /* cool concrete, not warm cream */
+  --surface: 255 255 255;
+  --ink: 13 13 14;
+  --muted: 110 112 118;
+  --hairline: 13 13 14; /* used at low alpha */
+  --accent: 27 58 232; /* one accent, cobalt, used everywhere */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --paper: 13 13 14;
+    --surface: 22 22 24;
+    --ink: 240 240 238;
+    --muted: 150 152 158;
+    --hairline: 255 255 255;
+    --accent: 92 118 255; /* lifted for contrast on dark */
+  }
+}
+
+:root[data-theme='dark'] {
+  --paper: 13 13 14;
+  --surface: 22 22 24;
+  --ink: 240 240 238;
+  --muted: 150 152 158;
+  --hairline: 255 255 255;
+  --accent: 92 118 255;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    /* Never animate the theme swap with a transition on body: it flashes. */
+  }
+
+  /* Visible, on-brand focus ring for keyboard users. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: rgb(var(--accent));
+    color: #fff;
+  }
+}
+
+@layer components {
+  /* Small uppercase label. Used sparingly, at most one per three sections. */
+  .label {
+    @apply font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-muted;
+  }
+
+  .shell {
+    @apply mx-auto w-full max-w-shell px-[clamp(1rem,4vw,3rem)];
+  }
+
+  .rule {
+    @apply border-0 border-t;
+    border-color: rgb(var(--hairline) / 0.14);
+  }
+}
