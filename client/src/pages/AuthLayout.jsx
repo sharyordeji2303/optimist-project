@@ -4,6 +4,7 @@ import { ArrowUpRight, SpinnerGap } from '@phosphor-icons/react';
 import Field from '../components/Field.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { ApiError } from '../api/client.js';
+import { images } from '../data/site.js';
 
 /** Shared shell for sign-in and sign-up: brand panel plus form. */
 export function AuthLayout({ title, intro, children, footer }) {
@@ -12,7 +13,7 @@ export function AuthLayout({ title, intro, children, footer }) {
       {/* Brand panel. Hidden on small screens where it would just push the form down. */}
       <div className="relative hidden overflow-hidden lg:block">
         <img
-          src="https://picsum.photos/seed/halden-auth-facade/1400/1800"
+          src={images.authFacade}
           alt="A Halden project facade photographed in flat daylight"
           className="absolute inset-0 h-full w-full object-cover"
           width="1400"

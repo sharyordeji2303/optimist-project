@@ -3,7 +3,7 @@ import Header from '../components/Header.jsx';
 import Footer from '../components/Footer.jsx';
 import ProjectGrid from '../components/ProjectGrid.jsx';
 import Reveal from '../components/Reveal.jsx';
-import { capabilities, disciplines, statement, studio } from '../data/site.js';
+import { capabilities, disciplines, images, statement, studio } from '../data/site.js';
 
 /**
  * The landing page.
@@ -54,7 +54,7 @@ export default function Home() {
             <div className="lg:col-span-5">
               <div className="clip-reveal is-visible overflow-hidden rounded-xl">
                 <img
-                  src="https://picsum.photos/seed/halden-hero-courtyard/1000/1250"
+                  src={images.hero}
                   alt="A Halden project photographed at dusk, showing a lit courtyard between two brick volumes"
                   className="h-[clamp(18rem,52vh,34rem)] w-full object-cover"
                   width="1000"
@@ -129,7 +129,7 @@ export default function Home() {
         --------------------------------------------------------------- */}
         <section className="relative mt-24 min-h-[26rem] overflow-hidden">
           <img
-            src="https://picsum.photos/seed/halden-statement-stair/1800/1000"
+            src={images.statement}
             alt="A concrete stair inside a Halden project, lit from a roof light above"
             className="absolute inset-0 h-full w-full object-cover"
             loading="lazy"

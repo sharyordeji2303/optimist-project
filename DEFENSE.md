@@ -219,8 +219,10 @@ Say these before you are asked. Naming your own gaps reads as competence.
 - **Rate limiting is per IP, not per account.** A distributed attack from many IPs
   against one account would get through. Account-level lockout is the next step.
 - **The tests cover the API, not the UI.** There is no browser test suite.
-- **Photographs are placeholders** from picsum.photos. Real project images need to
-  replace them in `client/src/data/site.js`.
+- **Photographs are generated placeholders.** The nine files in
+  `client/public/projects/` are tonal massing studies, not photographs. Replace
+  each with a real image of the same file name before submission; the README
+  lists the names and dimensions.
 - **No CI pipeline.** Tests are run locally with `npm test`.
 - **Accessibility is designed for, not audited.** Keyboard focus, labels, alt text
   and reduced motion are all handled, but there has been no screen-reader pass.

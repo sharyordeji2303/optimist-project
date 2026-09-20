@@ -15,6 +15,21 @@ export const studio = {
   address: 'Unit 4, Perch Wharf, London E2',
 };
 
+/**
+ * Photographs.
+ *
+ * Paths point into `client/public/projects/`, which Vite serves from the site
+ * root, so no import is needed and the same URL works in development and in a
+ * build. The files committed there are generated tonal placeholders: replace
+ * each one with a real photograph of the same name and nothing else changes.
+ * The README lists the required file names and dimensions.
+ */
+export const images = {
+  hero: '/projects/hero-courtyard.jpg',
+  statement: '/projects/statement-stair.jpg',
+  authFacade: '/projects/auth-facade.jpg',
+};
+
 export const nav = [
   { label: 'Work', href: '#work' },
   { label: 'Practice', href: '#practice' },
@@ -30,7 +45,7 @@ export const projects = [
     year: '2025',
     program: 'Adaptive reuse',
     aspect: 'aspect-[4/5]',
-    image: 'https://picsum.photos/seed/halden-perch-wharf/900/1125',
+    image: '/projects/perch-wharf.jpg',
     note: 'A grain store returned to the river it was built beside.',
   },
   {
@@ -40,7 +55,7 @@ export const projects = [
     year: '2024',
     program: 'Civic',
     aspect: 'aspect-[3/2]',
-    image: 'https://picsum.photos/seed/halden-umunna-hall/1200/800',
+    image: '/projects/umunna-hall.jpg',
     note: 'A community hall that opens along its whole length.',
   },
   {
@@ -50,7 +65,7 @@ export const projects = [
     year: '2024',
     program: 'Residential',
     aspect: 'aspect-[3/4]',
-    image: 'https://picsum.photos/seed/halden-feddan-house/900/1200',
+    image: '/projects/feddan-house.jpg',
     note: 'Shade, water and courtyard on a tight urban plot.',
   },
   {
@@ -60,7 +75,7 @@ export const projects = [
     year: '2023',
     program: 'Cultural',
     aspect: 'aspect-[1/1]',
-    image: 'https://picsum.photos/seed/halden-kelvedon-archive/1000/1000',
+    image: '/projects/kelvedon-archive.jpg',
     note: 'Daylight-controlled storage folded into a public reading room.',
   },
   {
@@ -70,7 +85,7 @@ export const projects = [
     year: '2023',
     program: 'Interiors',
     aspect: 'aspect-[5/4]',
-    image: 'https://picsum.photos/seed/halden-ten-bell-lane/1100/880',
+    image: '/projects/ten-bell-lane.jpg',
     note: 'A workspace built from what the previous tenant left behind.',
   },
   {
@@ -80,7 +95,7 @@ export const projects = [
     year: '2022',
     program: 'Masterplan',
     aspect: 'aspect-[2/3]',
-    image: 'https://picsum.photos/seed/halden-st-augustine-yard/900/1350',
+    image: '/projects/st-augustine-yard.jpg',
     note: 'Nine buildings arranged around a car-free yard.',
   },
 ];

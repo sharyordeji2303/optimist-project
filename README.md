@@ -171,6 +171,7 @@ arch-portfolio/
       validators/auth.validators.js
       utils/token.js            sign and verify JWTs
     scripts/dev-local.mjs       zero-setup local database
+    scripts/smoke.mjs           post-deployment checks against a live URL
     tests/auth.test.mjs         authentication integration suite
     tests/serverless.test.mjs   Vercel handler suite
 ```
@@ -327,13 +328,36 @@ request.
 2. Set **Root Directory** to `client`.
 3. Vercel detects Vite. Build command `npm run build`, output directory `dist`.
 4. Add one environment variable: `VITE_API_URL` set to the API URL from Step 2,
-   for example `https://YOUR-API.vercel.app` (no trailing slash).
+   for example `https://YOUR-API.vercel.app` (no trailing slash). Vite inlines
+   this value at build time, so changing it later needs a redeploy, not just a
+   restart.
 5. Deploy, then go back to the API project and set `CLIENT_ORIGIN` to this site
    URL so CORS allows it. Redeploy the API after changing it.
 
 `client/vercel.json` contains the rewrite that sends unknown paths to
 `index.html`. Without it, opening `/dashboard` directly in production would 404
 instead of loading the app and letting the route guard do its job.
+
+### Step 4: verify the deployment
+
+`server/scripts/smoke.mjs` checks a live deployment over HTTP. Run it once both
+projects are deployed, passing the site URL as the second argument:
+
+```powershell
+cd server
+npm run smoke -- https://YOUR-API.vercel.app https://YOUR-SITE.vercel.app
+```
+
+It checks the API is reachable and talking to the database, that signup, login
+and the protected route work, that a tampered token is refused, that unknown
+routes return our JSON 404 rather than Vercel's HTML one (which is what a broken
+rewrite looks like), that CORS allows the deployed site origin and still refuses
+others, and that a deep link such as `/dashboard` serves the app instead of
+404ing.
+
+Every line prints `ok` or `FAIL` with the reason. It exits non-zero if anything
+fails, so it can be pasted into a CI job later. With no site URL it checks the
+API only.
 
 ### Environment variables, quick reference
 
@@ -388,5 +412,30 @@ The landing page follows an editorial direction: a fluid type scale, a masonry
 project grid, generous whitespace, and one accent colour. Photographs are
 desaturated until hovered so the grid reads as a single composition.
 
-Placeholder photography comes from picsum.photos. Replace the `image` values in
-`client/src/data/site.js` with real project photographs before submission.
+## Photographs
+
+Every image path lives in `client/src/data/site.js`: the six project images plus
+the hero, the statement band and the sign-in panel. They point into
+`client/public/projects/`, which Vite serves from the site root, so the same path
+works in development and in a build, and there is no import to keep in sync.
+
+The files committed there are **generated tonal placeholders, not photographs**.
+Replace each one with a real photograph of the same file name and nothing else
+changes: no code edit, no path to update. Keep the dimensions close to the
+originals so the masonry grid keeps its rhythm.
+
+| File | Size | Used by |
+|---|---|---|
+| `perch-wharf.jpg` | 900 × 1125 | project tile, 4:5 |
+| `umunna-hall.jpg` | 1200 × 800 | project tile, 3:2 |
+| `feddan-house.jpg` | 900 × 1200 | project tile, 3:4 |
+| `kelvedon-archive.jpg` | 1000 × 1000 | project tile, 1:1 |
+| `ten-bell-lane.jpg` | 1100 × 880 | project tile, 5:4 |
+| `st-augustine-yard.jpg` | 900 × 1350 | project tile, 2:3 |
+| `hero-courtyard.jpg` | 1000 × 1250 | landing hero |
+| `statement-stair.jpg` | 1800 × 1000 | full-bleed statement band |
+| `auth-facade.jpg` | 1400 × 1800 | sign-in / sign-up panel |
+
+Tiles are cropped with `object-cover`, so a replacement only has to match the
+aspect ratio, not the exact pixel count. A photograph that is far smaller than
+the original will look soft on a large display.
