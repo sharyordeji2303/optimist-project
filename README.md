@@ -3,6 +3,9 @@
 A full-stack build for the Architectural Portfolio challenge: an editorial landing
 page plus a real authentication system.
 
+**New to this project? Read `START-HERE.md` first** — it is the step-by-step
+sequence from unzipping to a live deployment. This file is the reference manual.
+
 Two applications live in this repository:
 
 - `client/` React 19 + Tailwind CSS 3 single-page app
