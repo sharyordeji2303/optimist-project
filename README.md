@@ -36,13 +36,16 @@ If `node -v` prints anything below 20, install the current LTS from nodejs.org.
 
 ---
 
-## Quick start (Windows, PowerShell)
+## Quick start
+
+The commands below are the same in the macOS Terminal, a Linux shell and Windows
+PowerShell. The few places they differ are called out under Troubleshooting.
 
 You need **two terminals open at the same time**: one for the API, one for the site.
 
 ### Terminal 1: start the API
 
-```powershell
+```bash
 cd server
 npm install
 npm run dev:local
@@ -51,7 +54,8 @@ npm run dev:local
 `npm run dev:local` starts a real MongoDB **in-process** and then starts the API on
 port 4000. Nothing else to install, no database account needed. The first run
 downloads a MongoDB binary (about 100 MB) and takes a minute; after that it starts
-in seconds.
+in seconds. The download matches your machine, so Apple Silicon and Intel Macs
+both get a native binary.
 
 You should see:
 
@@ -65,7 +69,7 @@ Data written this way disappears when you press Ctrl+C. That is expected.
 
 ### Terminal 2: start the website
 
-```powershell
+```bash
 cd client
 npm install
 npm run dev
@@ -96,7 +100,7 @@ MongoDB server on your machine or a free MongoDB Atlas cluster:
 2. Set `MONGODB_URI` to your connection string.
 3. Generate a JWT secret and paste it into `JWT_SECRET`:
 
-   ```powershell
+   ```bash
    node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
    ```
 
@@ -108,7 +112,7 @@ MongoDB server on your machine or a free MongoDB Atlas cluster:
 
 ## Running the tests
 
-```powershell
+```bash
 cd server
 npm test
 ```
@@ -311,7 +315,7 @@ The database still has to live somewhere. Vercel does not host databases, so
 
    Generate the secret with:
 
-   ```powershell
+   ```bash
    node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
    ```
 
@@ -345,7 +349,7 @@ instead of loading the app and letting the route guard do its job.
 `server/scripts/smoke.mjs` checks a live deployment over HTTP. Run it once both
 projects are deployed, passing the site URL as the second argument:
 
-```powershell
+```bash
 cd server
 npm run smoke -- https://YOUR-API.vercel.app https://YOUR-SITE.vercel.app
 ```
@@ -378,21 +382,33 @@ Never commit `.env`. `.gitignore` already excludes it.
 The API terminal is not running, or it crashed. Check Terminal 1.
 
 **`Port 4000 is already in use`**
-Another process has the port. On Windows: `netstat -ano | findstr :4000`, then
-`taskkill /PID <pid> /F`. Or change `PORT` in `server/.env`.
+Another process has the port. Find and stop it, or change `PORT` in `server/.env`.
+
+- macOS and Linux: `lsof -ti :4000 | xargs kill`
+- Windows: `netstat -ano | findstr :4000`, then `taskkill /PID <pid> /F`
 
 **`Port 5173 is already in use`**
 Vite will offer the next free port. Accept it, and note the URL it prints.
 
-**Windows Firewall prompt on first run**
-Allow Node.js on private networks. This is the local dev server only.
+**A firewall prompt on first run**
+Allow Node.js to accept incoming connections on private networks. This is the
+local dev server only, and the site stays reachable at http://localhost:5173
+either way. macOS asks the same question the first time you run it.
 
 **`npm install` fails with EPERM or permission errors**
-Close any editor holding files in the folder, then run the install again. On
-Windows, avoid running npm from a OneDrive-synced folder if possible.
+Close any editor holding files in the folder, then run the install again. Avoid
+running npm from a cloud-synced folder: OneDrive on Windows, or iCloud Drive
+(`~/Documents` and `~/Desktop`, when Desktop & Documents sync is on) on macOS.
+Both hold locks on files while they sync.
 
 **First `npm run dev:local` is slow**
 It is downloading a MongoDB binary. It is cached, so the second run is fast.
+
+**`npm run dev:local` cannot start the database on macOS**
+The in-process database downloads MongoDB 8.x, and MongoDB supports that version
+on macOS 14 and later. On an older macOS, or if the download is blocked, use a
+real database instead: set `MONGODB_URI` and run `npm run dev` (see "Using a real
+database instead"). The API itself runs on any macOS version Node 20 supports.
 
 **`npm ci` prints `allow-scripts` warnings about `mongodb-memory-server`**
 Harmless. That package downloads its MongoDB binary when the app starts, not at

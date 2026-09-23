@@ -254,9 +254,12 @@ Run it in this order. It shows the whole system working.
    sent to sign in. That is the signature check failing, shown live.
 9. **Prove the API is actually protected.** From a terminal:
 
-   ```powershell
+   ```bash
    curl http://localhost:4000/api/auth/me
    ```
+
+   (On Windows PowerShell 5.1, `curl` is an alias for `Invoke-WebRequest`; use
+   `curl.exe` there instead.)
 
    Show the 401. Then repeat it with a real token in the header and show the 200.
 10. **Sign out, then try `/dashboard` directly.** Redirected to sign in.
