@@ -91,13 +91,20 @@ was not wrong here.
 
 ---
 
-## 3. Put your real photographs in
+## 3. The photographs (optional)
 
-The site ships with nine generated placeholders, not photographs. Replace them
-before you deploy, otherwise you will have to deploy twice.
+The site ships with nine generated placeholders — tonal architectural studies,
+one per slot, drawn in the site's own palette. They are **not** photographs of
+built work, and they are deliberately graphic so nobody mistakes them for it.
 
-Open `client/public/projects/` in Finder. Overwrite these files with your own
-photographs, **keeping the exact same file names**:
+Keeping them is a legitimate choice, and it is what this build does by default.
+If you keep them, say so when you present the project rather than letting it be
+noticed: `DEFENSE.md` §6 has the wording, and the short version is that inventing
+photo-real imagery and labelling it as specific real projects would misrepresent
+someone else's buildings.
+
+If you would rather use real photographs, open `client/public/projects/` in
+Finder and overwrite these files, **keeping the exact same file names**:
 
 | File name | Size | Shape | What it is |
 |---|---|---|---|
@@ -112,14 +119,13 @@ photographs, **keeping the exact same file names**:
 | `auth-facade.jpg` | 1400×1800 | tall | panel beside the sign-in form |
 
 **Worked if** you refresh http://localhost:5173 with Cmd+Shift+R and see your
-photos instead of the grey graphics.
+photographs in the grid instead of the drawn ones.
 
 Tiles are cropped to fit, so the shape matters more than the pixel count. A photo
 much smaller than 1000px wide will look soft on a large screen.
 
-If you do not have the photos yet, skip this for now — the placeholders are
-deliberately obvious, so nobody will mistake them for your work. Just do not
-forget before you submit.
+You can do this at any point, before or after deploying — but if you do it after,
+commit and push so Vercel rebuilds with the new images.
 
 ---
 
@@ -292,7 +298,8 @@ character, or you forgot to redeploy the API after setting it.
 
 ## 10. Before you submit
 
-- [ ] Real photographs in place, no grey placeholders left
+- [ ] Photographs: either real ones in place, or you can say out loud that the
+      nine drawn studies are placeholders and why (`DEFENSE.md` §6)
 - [ ] Both URLs open in a private window (so you are not signed in already)
 - [ ] Sign up, refresh, sign out, and try `/dashboard` signed out — on the live site
 - [ ] `npm run smoke` all green

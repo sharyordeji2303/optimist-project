@@ -220,9 +220,11 @@ Say these before you are asked. Naming your own gaps reads as competence.
   against one account would get through. Account-level lockout is the next step.
 - **The tests cover the API, not the UI.** There is no browser test suite.
 - **Photographs are generated placeholders.** The nine files in
-  `client/public/projects/` are tonal massing studies, not photographs. Replace
-  each with a real image of the same file name before submission; the README
-  lists the names and dimensions.
+  `client/public/projects/` are tonal architectural studies drawn for the site,
+  not photographs of built work. That was a deliberate call: inventing realistic
+  imagery and labelling it as specific projects would misrepresent other people's
+  buildings. Say it in those terms. To swap in real photographs, overwrite the
+  files with the same names (sizes and names are listed in the README).
 - **No CI pipeline.** Tests are run locally with `npm test`.
 - **Accessibility is designed for, not audited.** Keyboard focus, labels, alt text
   and reduced motion are all handled, but there has been no screen-reader pass.
@@ -236,9 +238,13 @@ Run it in this order. It shows the whole system working.
 
 1. **Start both.** Terminal 1 `cd server && npm run dev:local`. Terminal 2
    `cd client && npm run dev`. Open http://localhost:5173.
-2. **Walk the landing page.** Point out the hero, the masonry grid, the desaturated
-   photographs resolving on hover, and the marquee. Resize the window to show the
-   grid stepping from three columns to two to one. Press the theme toggle.
+2. **Walk the landing page.** Point out the hero, the masonry grid, the marquee,
+   and the tile hover — each tile lifts and scales under the pointer. Resize the
+   window to show the grid stepping from three columns to two to one. Press the
+   theme toggle. (The grid is also built to sit monochrome and resolve into
+   colour on hover; with the drawn placeholders in place that half of the effect
+   is invisible because they are already monochrome. Worth saying, since it shows
+   you know what the CSS does.)
 3. **Open DevTools, Network tab.** Refresh. Show the document, the CSS, the JS.
    Point out `editorial.css` rules in the compiled stylesheet.
 4. **Attempt a bad signup.** Go to `/signup`, use password `abc`. Show the inline
