@@ -20,9 +20,8 @@ export const studio = {
  *
  * Paths point into `client/public/projects/`, which Vite serves from the site
  * root, so no import is needed and the same URL works in development and in a
- * build. The files committed there are generated tonal placeholders: replace
- * each one with a real photograph of the same name and nothing else changes.
- * The README lists the required file names and dimensions.
+ * build. Curated Unsplash photographs illustrate this fictional portfolio.
+ * See PHOTO-CREDITS.md for sources and the original-image backup location.
  */
 export const images = {
   hero: '/projects/hero-courtyard.jpg',
@@ -46,6 +45,7 @@ export const projects = [
     program: 'Adaptive reuse',
     aspect: 'aspect-[4/5]',
     image: '/projects/perch-wharf.jpg',
+    imageAlt: 'Geometric brick facade with deep-set windows and a white roofline',
     note: 'A grain store returned to the river it was built beside.',
   },
   {
@@ -56,6 +56,7 @@ export const projects = [
     program: 'Civic',
     aspect: 'aspect-[3/2]',
     image: '/projects/umunna-hall.jpg',
+    imageAlt: 'Open concrete courtyard with terraces, lawn and broad steps',
     note: 'A community hall that opens along its whole length.',
   },
   {
@@ -66,6 +67,7 @@ export const projects = [
     program: 'Residential',
     aspect: 'aspect-[3/4]',
     image: '/projects/feddan-house.jpg',
+    imageAlt: 'White contemporary home with timber details and courtyard planting',
     note: 'Shade, water and courtyard on a tight urban plot.',
   },
   {
@@ -76,6 +78,7 @@ export const projects = [
     program: 'Cultural',
     aspect: 'aspect-[1/1]',
     image: '/projects/kelvedon-archive.jpg',
+    imageAlt: 'Concrete columns framing a glazed entrance and gravel courtyard',
     note: 'Daylight-controlled storage folded into a public reading room.',
   },
   {
@@ -86,6 +89,7 @@ export const projects = [
     program: 'Interiors',
     aspect: 'aspect-[5/4]',
     image: '/projects/ten-bell-lane.jpg',
+    imageAlt: 'Warm timber interior beneath a geometric daylight ceiling',
     note: 'A workspace built from what the previous tenant left behind.',
   },
   {
@@ -96,6 +100,7 @@ export const projects = [
     program: 'Masterplan',
     aspect: 'aspect-[2/3]',
     image: '/projects/st-augustine-yard.jpg',
+    imageAlt: 'Quiet cobblestone mews lined with brick houses and greenery',
     note: 'Nine buildings arranged around a car-free yard.',
   },
 ];

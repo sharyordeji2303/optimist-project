@@ -440,16 +440,13 @@ the hero, the statement band and the sign-in panel. They point into
 `client/public/projects/`, which Vite serves from the site root, so the same path
 works in development and in a build, and there is no import to keep in sync.
 
-The files committed there are **generated placeholders, not photographs** — a set
-of nine tonal architectural studies, one per slot, drawn in the site's palette so
-the grid still reads as a single composition.
+The files are curated architectural photographs from Unsplash, used as illustrative
+imagery for this fictional portfolio. See `PHOTO-CREDITS.md` for photographers,
+source links and licensing. The original generated images are preserved in
+`backups/projects-original-2026-09-29/projects/`.
 
-Replacing them is optional. If you keep them, say so plainly rather than leaving
-it to be noticed (see `DEFENSE.md` §6); a named placeholder reads as a decision,
-an unexplained one reads as an oversight. To replace any of them, overwrite the
-file with a real photograph of the same name and nothing else changes: no code
-edit, no path to update. Keep the dimensions close to the originals so the
-masonry grid keeps its rhythm.
+To replace a photograph, overwrite the file of the same name and update its alt
+text and credit. Keep the dimensions below so the masonry grid keeps its rhythm.
 
 | File | Size | Used by |
 |---|---|---|

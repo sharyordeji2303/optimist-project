@@ -17,7 +17,7 @@ export default function ProjectGrid() {
             <div className={`tile-media w-full rounded-lg ${project.aspect}`}>
               <img
                 src={project.image}
-                alt={`${project.title}, ${project.program.toLowerCase()} project in ${project.location}`}
+                alt={project.imageAlt}
                 loading={index < 3 ? 'eager' : 'lazy'}
                 decoding="async"
                 width="900"

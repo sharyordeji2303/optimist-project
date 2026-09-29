@@ -14,7 +14,7 @@ export function AuthLayout({ title, intro, children, footer }) {
       <div className="relative hidden overflow-hidden lg:block">
         <img
           src={images.authFacade}
-          alt="A Halden project facade photographed in flat daylight"
+          alt="Sculptural concrete facade with reflective glass and deep blue shadows"
           className="absolute inset-0 h-full w-full object-cover"
           width="1400"
           height="1800"

@@ -55,7 +55,7 @@ export default function Home() {
               <div className="clip-reveal is-visible overflow-hidden rounded-xl">
                 <img
                   src={images.hero}
-                  alt="A Halden project photographed at dusk, showing a lit courtyard between two brick volumes"
+                  alt="Sunlit courtyard framed by brick walls and sculptural window bays"
                   className="h-[clamp(18rem,52vh,34rem)] w-full object-cover"
                   width="1000"
                   height="1250"
@@ -130,7 +130,7 @@ export default function Home() {
         <section className="relative mt-24 min-h-[26rem] overflow-hidden">
           <img
             src={images.statement}
-            alt="A concrete stair inside a Halden project, lit from a roof light above"
+            alt="Sweeping staircase with timber balustrades beneath a bright skylight"
             className="absolute inset-0 h-full w-full object-cover"
             loading="lazy"
             decoding="async"
