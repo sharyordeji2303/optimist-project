@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowUpRight, List, Moon, Sun, X } from '@phosphor-icons/react';
 import { nav, studio } from '../data/site.js';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useUserStore } from '../store/userStore.js';
 
 const THEME_KEY = 'halden.theme';
 
@@ -37,10 +37,10 @@ function useTheme() {
   return { isDark, toggle };
 }
 
-export default function Header() {
+export default function Navbar() {
   const [open, setOpen] = useState(false);
   const { isDark, toggle } = useTheme();
-  const { user, logout } = useAuth();
+  const { user, logOut } = useUserStore();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -68,7 +68,7 @@ export default function Header() {
   }, [open]);
 
   const handleSignOut = () => {
-    logout();
+    logOut();
     setOpen(false);
     navigate('/');
   };

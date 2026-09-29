@@ -30,9 +30,9 @@ export const images = {
 };
 
 export const nav = [
-  { label: 'Work', href: '#work' },
-  { label: 'Practice', href: '#practice' },
-  { label: 'Studio', href: '#studio' },
+  { label: 'Home', href: '/' },
+  { label: 'Work', href: '/#work' },
+  { label: 'About', href: '/about' },
 ];
 
 /** Six projects. Aspect ratios differ on purpose so the masonry grid breathes. */

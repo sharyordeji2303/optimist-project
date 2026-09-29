@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useUserStore } from '../store/userStore.js';
+import Loader from './Loader.jsx';
 
 /**
  * Wraps routes that require a signed-in user.
@@ -15,18 +16,11 @@ import { useAuth } from '../context/AuthContext.jsx';
  *     remembering where they were headed so login can return them there.
  */
 export default function ProtectedRoute({ children }) {
-  const { user, loading, signedOutAt } = useAuth();
+  const { user, loading, signedOutAt } = useUserStore();
   const location = useLocation();
 
   if (loading) {
-    return (
-      <div className="shell flex min-h-[100dvh] flex-col justify-center gap-4 pt-24" aria-busy="true">
-        <div className="skeleton h-4 w-40" />
-        <div className="skeleton h-10 w-72" />
-        <div className="skeleton h-24 w-full max-w-xl" />
-        <span className="sr-only">Checking your session</span>
-      </div>
-    );
+    return <Loader />;
   }
 
   if (!user) {

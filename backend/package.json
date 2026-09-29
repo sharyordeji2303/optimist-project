@@ -1,5 +1,5 @@
 {
-  "name": "arch-portfolio-server",
+  "name": "arch-portfolio-backend",
   "version": "1.0.0",
   "private": true,
   "type": "module",

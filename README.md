@@ -8,8 +8,8 @@ sequence from unzipping to a live deployment. This file is the reference manual.
 
 Two applications live in this repository:
 
-- `client/` React 19 + Tailwind CSS 3 single-page app
-- `server/` Express 5 + MongoDB (Mongoose) + JWT API
+- `frontend/` React 19 + Tailwind CSS 3 single-page app
+- `backend/` Express 5 + MongoDB (Mongoose) + JWT API
 
 ---
 
@@ -18,7 +18,7 @@ Two applications live in this repository:
 | Layer | Choice |
 |---|---|
 | Frontend | React 19, Tailwind CSS 3, React Router 7, Vite 8 |
-| Custom CSS | `client/src/styles/editorial.css` |
+| Custom CSS | `frontend/src/styles/editorial.css` |
 | Backend | Node.js, Express 5 |
 | Database | MongoDB via Mongoose 9 |
 | Auth | JSON Web Tokens (`jsonwebtoken`), passwords hashed with bcrypt |
@@ -49,7 +49,7 @@ You need **two terminals open at the same time**: one for the API, one for the s
 ### Terminal 1: start the API
 
 ```bash
-cd server
+cd backend
 npm install
 npm run dev:local
 ```
@@ -73,7 +73,7 @@ Data written this way disappears when you press Ctrl+C. That is expected.
 ### Terminal 2: start the website
 
 ```bash
-cd client
+cd frontend
 npm install
 npm run dev
 ```
@@ -99,7 +99,7 @@ talks to one origin and CORS never gets in the way during development.
 The in-process database is for convenience. To use a persistent database, either a
 MongoDB server on your machine or a free MongoDB Atlas cluster:
 
-1. In `server/`, copy `.env.example` to `.env`.
+1. In `backend/`, copy `.env.example` to `.env`.
 2. Set `MONGODB_URI` to your connection string.
 3. Generate a JWT secret and paste it into `JWT_SECRET`:
 
@@ -116,7 +116,7 @@ MongoDB server on your machine or a free MongoDB Atlas cluster:
 ## Running the tests
 
 ```bash
-cd server
+cd backend
 npm test
 ```
 
@@ -134,34 +134,36 @@ adapter boots under `NODE_ENV=production` and serves the same routes.
 
 ```
 arch-portfolio/
-  client/
+  frontend/
     index.html
     vercel.json                 SPA rewrite so deep links do not 404
     tailwind.config.js          design tokens and the fluid type scale
     vite.config.js              dev server plus the /api proxy
     src/
-      main.jsx                  entry point, providers, stylesheet imports
+      main.jsx                  entry point and stylesheet imports
       App.jsx                   route map
       index.css                 Tailwind layers and CSS variables
       styles/
         editorial.css           hand-written CSS (see below)
-      api/client.js             fetch wrapper and the ApiError shape
-      context/AuthContext.jsx   session state, login, signup, logout
+      api/axios.js              shared Axios client and error messages
+      store/userStore.js        Zustand session state and auth actions
       components/
-        Header.jsx              floating nav, theme toggle, mobile sheet
+        Navbar.jsx              floating nav, theme toggle, mobile sheet
         Footer.jsx
         ProjectGrid.jsx         masonry project grid
         Reveal.jsx              IntersectionObserver scroll reveals
         Field.jsx               labelled form field with inline errors
       pages/
-        Home.jsx                the landing page
-        AuthLayout.jsx          shared shell for the two auth pages
+        Landing.jsx             the public portfolio
+        About.jsx               practice and studio
         Login.jsx
         Signup.jsx
-        Dashboard.jsx           the protected page
+        Home.jsx                the protected account page
         NotFound.jsx
-      routes/ProtectedRoute.jsx the auth gate
-  server/
+      components/ProtectedRoute.jsx  the auth gate
+      components/AuthLayout.jsx      shared auth presentation
+      components/Loader.jsx          session loading screen
+  backend/
     vercel.json                 routes every path to the serverless function
     api/
       index.js                  Vercel entry point, caches the DB connection
@@ -258,7 +260,7 @@ Authorization: Bearer <token>
 
 ## Environment variables
 
-`server/.env`
+`backend/.env`
 
 | Name | Default | Notes |
 |---|---|---|
@@ -270,7 +272,7 @@ Authorization: Bearer <token>
 | `BCRYPT_ROUNDS` | `12` | |
 | `CLIENT_ORIGIN` | `http://localhost:5173` | Comma-separated allowlist |
 
-`client/.env` is only needed if the API is not at `localhost:4000`:
+`frontend/.env` is only needed if the API is not at `localhost:4000`:
 
 | Name | Notes |
 |---|---|
@@ -283,7 +285,7 @@ Authorization: Bearer <token>
 The app is deployed as **two Vercel projects from this one repository**: one for
 the API and one for the site. Vercel cannot run a long-lived Express process, so
 the API is served as a serverless function instead. That adapter already exists at
-`server/api/index.js` and is covered by tests.
+`backend/api/index.js` and is covered by tests.
 
 The database still has to live somewhere. Vercel does not host databases, so
 **MongoDB Atlas is required** for a deployment.
@@ -303,7 +305,7 @@ The database still has to live somewhere. Vercel does not host databases, so
 
 1. Push this repository to GitHub.
 2. In Vercel, **Add New Project** and import the repository.
-3. Set **Root Directory** to `server`.
+3. Set **Root Directory** to `backend`.
 4. Framework preset: **Other**. Leave the build command empty.
 5. Add these environment variables:
 
@@ -327,14 +329,14 @@ The database still has to live somewhere. Vercel does not host databases, so
 
 The serverless entry point caches the database connection between invocations, so
 a warm instance reuses one connection pool instead of opening a new one per
-request. Each instance caps its pool at 10 connections (`server/src/config/db.js`)
+request. Each instance caps its pool at 10 connections (`backend/src/config/db.js`)
 rather than the driver default of 100, because several warm instances would
 otherwise be able to exhaust an Atlas Free cluster's 500-connection limit.
 
 ### Step 3: Site project on Vercel
 
 1. **Add New Project** again, same repository.
-2. Set **Root Directory** to `client`.
+2. Set **Root Directory** to `frontend`.
 3. Vercel detects Vite. Build command `npm run build`, output directory `dist`.
 4. Add one environment variable: `VITE_API_URL` set to the API URL from Step 2,
    for example `https://YOUR-API.vercel.app` (no trailing slash). Vite inlines
@@ -343,17 +345,17 @@ otherwise be able to exhaust an Atlas Free cluster's 500-connection limit.
 5. Deploy, then go back to the API project and set `CLIENT_ORIGIN` to this site
    URL so CORS allows it. Redeploy the API after changing it.
 
-`client/vercel.json` contains the rewrite that sends unknown paths to
+`frontend/vercel.json` contains the rewrite that sends unknown paths to
 `index.html`. Without it, opening `/dashboard` directly in production would 404
 instead of loading the app and letting the route guard do its job.
 
 ### Step 4: verify the deployment
 
-`server/scripts/smoke.mjs` checks a live deployment over HTTP. Run it once both
+`backend/scripts/smoke.mjs` checks a live deployment over HTTP. Run it once both
 projects are deployed, passing the site URL as the second argument:
 
 ```bash
-cd server
+cd backend
 npm run smoke -- https://YOUR-API.vercel.app https://YOUR-SITE.vercel.app
 ```
 
@@ -370,10 +372,10 @@ API only.
 
 ### Environment variables, quick reference
 
-`server` project: `NODE_ENV`, `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`,
+`backend` project: `NODE_ENV`, `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`,
 `BCRYPT_ROUNDS`, `CLIENT_ORIGIN`.
 
-`client` project: `VITE_API_URL`.
+`frontend` project: `VITE_API_URL`.
 
 Never commit `.env`. `.gitignore` already excludes it.
 
@@ -385,7 +387,7 @@ Never commit `.env`. `.gitignore` already excludes it.
 The API terminal is not running, or it crashed. Check Terminal 1.
 
 **`Port 4000 is already in use`**
-Another process has the port. Find and stop it, or change `PORT` in `server/.env`.
+Another process has the port. Find and stop it, or change `PORT` in `backend/.env`.
 
 - macOS and Linux: `lsof -ti :4000 | xargs kill`
 - Windows: `netstat -ano | findstr :4000`, then `taskkill /PID <pid> /F`
@@ -419,7 +421,7 @@ install time, so the warning changes nothing.
 
 **`[env] JWT_SECRET is not set` on startup**
 Expected in development. The API uses a throwaway secret so the project runs with
-no setup. Set a real `JWT_SECRET` in `server/.env` before deploying anywhere
+no setup. Set a real `JWT_SECRET` in `backend/.env` before deploying anywhere
 public, because in production the server refuses to start without one.
 
 **The MongoDB download fails behind a firewall**
@@ -435,9 +437,9 @@ desaturated until hovered so the grid reads as a single composition.
 
 ## Photographs
 
-Every image path lives in `client/src/data/site.js`: the six project images plus
+Every image path lives in `frontend/src/data/site.js`: the six project images plus
 the hero, the statement band and the sign-in panel. They point into
-`client/public/projects/`, which Vite serves from the site root, so the same path
+`frontend/public/projects/`, which Vite serves from the site root, so the same path
 works in development and in a build, and there is no import to keep in sync.
 
 The files are curated architectural photographs from Unsplash, used as illustrative

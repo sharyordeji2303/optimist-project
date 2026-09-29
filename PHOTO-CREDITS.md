@@ -23,4 +23,4 @@ on their source pages. Local JPEGs are optimized and cropped to the existing lay
 
 All nine original files are preserved unchanged in
 `backups/projects-original-2026-09-29/projects/`, outside the public website folder.
-Copy those JPGs back into `client/public/projects/` to restore the previous images.
+Copy those JPGs back into `frontend/public/projects/` to restore the previous images.

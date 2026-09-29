@@ -1,9 +1,8 @@
-import { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { ArrowUpRight, SpinnerGap } from '@phosphor-icons/react';
-import Field from '../components/Field.jsx';
-import { useAuth } from '../context/AuthContext.jsx';
-import { ApiError } from '../api/client.js';
+
+
+
 import { images } from '../data/site.js';
 
 /** Shared shell for sign-in and sign-up: brand panel plus form. */
@@ -69,36 +68,4 @@ export function FormError({ error }) {
       {error}
     </p>
   );
-}
-
-export function useAuthForm(initial) {
-  const [values, setValues] = useState(initial);
-  const [fieldErrors, setFieldErrors] = useState({});
-  const [formError, setFormError] = useState(null);
-  const [pending, setPending] = useState(false);
-
-  const update = (key) => (event) => {
-    setValues((current) => ({ ...current, [key]: event.target.value }));
-    // Clear the message for a field as soon as the user edits it.
-    setFieldErrors((current) => (current[key] ? { ...current, [key]: undefined } : current));
-  };
-
-  /** Turns an ApiError into field errors plus an optional summary line. */
-  const applyError = (error) => {
-    if (error instanceof ApiError && error.fields) {
-      setFieldErrors(error.fields);
-      setFormError(null);
-      return;
-    }
-    setFormError(error.message || 'Something went wrong. Try again.');
-  };
-
-  return { values, fieldErrors, formError, pending, setPending, update, applyError, setFormError };
-}
-
-export function useRedirectAfterAuth() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const destination = location.state?.from || '/dashboard';
-  return () => navigate(destination, { replace: true });
 }

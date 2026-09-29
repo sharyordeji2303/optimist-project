@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, SignOut } from '@phosphor-icons/react';
-import Header from '../components/Header.jsx';
+import Navbar from '../components/Navbar.jsx';
 import Footer from '../components/Footer.jsx';
 import Reveal from '../components/Reveal.jsx';
-import { useAuth } from '../context/AuthContext.jsx';
+import { useUserStore } from '../store/userStore.js';
 import { projects, studio } from '../data/site.js';
 
 /** Formats an ISO date as "12 September 2026" without pulling in a library. */
@@ -20,13 +20,13 @@ function formatDate(iso) {
  * The protected page. Only reachable through ProtectedRoute, which means it can
  * assume a signed-in user and needs no null checks of its own.
  */
-export default function Dashboard() {
-  const { user, logout } = useAuth();
+export default function Home() {
+  const { user, logOut } = useUserStore();
   const recent = projects.slice(0, 4);
 
   return (
     <>
-      <Header />
+      <Navbar />
 
       <main className="shell pt-32 pb-24">
         <Reveal className="flex flex-wrap items-end justify-between gap-6 border-b pb-8" style={{ borderColor: 'rgb(var(--hairline) / 0.14)' }}>
@@ -39,8 +39,8 @@ export default function Dashboard() {
           </div>
 
           {/* Logging out sends the user to the homepage; ProtectedRoute decides
-              that destination from the signedOutAt flag in the auth context. */}
-          <button type="button" onClick={logout} className="btn btn-ghost">
+              that destination from the signedOutAt flag in the user store. */}
+          <button type="button" onClick={logOut} className="btn btn-ghost">
             Sign out
             <span className="btn-disc">
               <SignOut size={15} weight="light" />

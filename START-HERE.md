@@ -32,7 +32,7 @@ cd arch-portfolio
 ls
 ```
 
-**Worked if** `ls` shows `client`, `server`, `README.md`, `DEFENSE.md` and this
+**Worked if** `ls` shows `frontend`, `backend`, `README.md`, `DEFENSE.md` and this
 file. Every command from here on assumes you are in `~/code/arch-portfolio` or a
 subfolder of it.
 
@@ -103,7 +103,7 @@ noticed: `DEFENSE.md` §6 has the wording, and the short version is that inventi
 photo-real imagery and labelling it as specific real projects would misrepresent
 someone else's buildings.
 
-If you would rather use real photographs, open `client/public/projects/` in
+If you would rather use real photographs, open `frontend/public/projects/` in
 Finder and overwrite these files, **keeping the exact same file names**:
 
 | File name | Size | Shape | What it is |
@@ -193,7 +193,7 @@ Vercel deploys from a repository, so the code has to be on GitHub first.
    password.
 
 **Worked if** the push completes and refreshing the GitHub page shows the folders
-`client` and `server`. If it failed on authentication, that is the token step
+`frontend` and `backend`. If it failed on authentication, that is the token step
 above and nothing else.
 
 ---
@@ -204,7 +204,7 @@ In Vercel: **Add New Project** → import `arch-portfolio`.
 
 On the configuration screen, before you click Deploy:
 
-- **Root Directory** → Edit → `server`
+- **Root Directory** → Edit → `backend`
 - **Framework Preset** → `Other`
 - **Build Command** → leave empty
 - **Output Directory** → leave empty
@@ -241,7 +241,7 @@ Copy that API URL. You need it twice more.
 
 **Add New Project** again, same repository, and this time:
 
-- **Root Directory** → `client`
+- **Root Directory** → `frontend`
 - **Framework Preset** → `Vite` (Vercel detects this automatically)
 - **Build Command** → `npm run build`
 - **Output Directory** → `dist`
@@ -321,5 +321,5 @@ Two other things worth knowing:
   automatically. Nothing to click.
 - **`npm run dev:local` will not start on an old macOS.** The in-process database
   needs macOS 14+. If your Mac is older, use the Atlas database you made in step 4
-  for local development too: copy `server/.env.example` to `server/.env`, paste the
+  for local development too: copy `backend/.env.example` to `backend/.env`, paste the
   connection string into `MONGODB_URI`, and run `npm run dev` instead.

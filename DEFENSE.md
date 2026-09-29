@@ -27,8 +27,8 @@ Follow one request all the way through. This is the story to tell.
 1. **`Signup.jsx`** collects the three fields and calls `signup()` from the auth
    context. It sets `pending` to true first, so the button shows a spinner and
    cannot be double-submitted.
-2. **`AuthContext.jsx`** calls `authApi.signup()`.
-3. **`api/client.js`** turns that into `POST /api/auth/signup` with a JSON body.
+2. **`store/userStore.js`** calls `signup(formData)`.
+3. **`api/axios.js`** turns that into `POST /api/auth/signup` with a JSON body.
    Because `VITE_API_URL` is unset in development, the request goes to the same
    origin, `localhost:5173`, and the Vite dev server proxies `/api` to
    `localhost:4000`.
@@ -50,18 +50,18 @@ Follow one request all the way through. This is the story to tell.
    expiry, an issuer and an audience.
 10. The controller returns `201` with the public user object and the token.
     `toPublicJSON()` is the only shape ever sent, so `passwordHash` cannot leak.
-11. **`AuthContext.jsx`** stores the token and sets the user. The component
+11. **`store/userStore.js`** stores the token and sets the user. The component
     redirects to `/dashboard`.
 12. **`ProtectedRoute.jsx`** allows it, because `user` is now set.
 
 Then, when you refresh the dashboard:
 
-1. `AuthContext` reads the token from `localStorage` on startup.
+1. `useUserStore` reads the token from `localStorage` on startup.
 2. It calls `GET /api/auth/me` with that token to check the session is still real.
 3. **`middleware/auth.js`** verifies the signature, the expiry, the issuer and the
    audience, then loads the user from the database.
 4. If all good, the dashboard renders. If the token was expired or forged, the
-   API returns 401, the context clears the token, and `ProtectedRoute` sends you
+   API returns 401, the store clears the token, and `ProtectedRoute` sends you
    to the sign-in page.
 
 ---
@@ -220,7 +220,7 @@ Say these before you are asked. Naming your own gaps reads as competence.
   against one account would get through. Account-level lockout is the next step.
 - **The tests cover the API, not the UI.** There is no browser test suite.
 - **Photographs are generated placeholders.** The nine files in
-  `client/public/projects/` are tonal architectural studies drawn for the site,
+  `frontend/public/projects/` are tonal architectural studies drawn for the site,
   not photographs of built work. That was a deliberate call: inventing realistic
   imagery and labelling it as specific projects would misrepresent other people's
   buildings. Say it in those terms. To swap in real photographs, overwrite the
@@ -236,8 +236,8 @@ Say these before you are asked. Naming your own gaps reads as competence.
 
 Run it in this order. It shows the whole system working.
 
-1. **Start both.** Terminal 1 `cd server && npm run dev:local`. Terminal 2
-   `cd client && npm run dev`. Open http://localhost:5173.
+1. **Start both.** Terminal 1 `cd backend && npm run dev:local`. Terminal 2
+   `cd frontend && npm run dev`. Open http://localhost:5173.
 2. **Walk the landing page.** Point out the hero, the masonry grid, the marquee,
    and the tile hover — each tile lifts and scales under the pointer. Resize the
    window to show the grid stepping from three columns to two to one. Press the
@@ -269,7 +269,7 @@ Run it in this order. It shows the whole system working.
 
    Show the 401. Then repeat it with a real token in the header and show the 200.
 10. **Sign out, then try `/dashboard` directly.** Redirected to sign in.
-11. **Run `npm test`** in `server/` and let the suite print. Twenty-four checks
+11. **Run `npm test`** in `backend/` and let the suite print. Twenty-four checks
     across two suites, against a real server and a real database.
 
 ---
